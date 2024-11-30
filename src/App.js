@@ -1,106 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import './App.css'; // 引入 CSS 文件
-import CountdownTimer from './CountdownTimer'; // 引入新的倒计时组件
-
-// 单词和对应的中文选项
-const words = [
-    { english: 'Apple', chinese: ['苹果', '香蕉', '橙子', '葡萄'] },
-    { english: 'Banana', chinese: ['香蕉', '苹果', '橙子', '草莓'] },
-    { english: 'Orange', chinese: ['橙子', '苹果', '香蕉', '西瓜'] },
-    { english: 'Grape', chinese: ['葡萄', '苹果', '橙子', '草莓'] },
-    { english: 'Strawberry', chinese: ['草莓', '香蕉', '苹果', '橙子'] },
-    { english: 'Peach', chinese: ['桃子', '苹果', '香蕉', '橙子'] },
-    { english: 'Watermelon', chinese: ['西瓜', '苹果', '香蕉', '橙子'] },
-    { english: 'Pineapple', chinese: ['菠萝', '苹果', '香蕉', '橙子'] },
-    // 可以添加更多单词
-];
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'; // 使用 Routes 替代 Switch
+import './App.css';
+import QuizGame from './QuizGame';
+import Home from './Home'; // 引入新的 Home 组件
 
 function App() {
-    const [currentWordIndex, setCurrentWordIndex] = useState(0);
-    const [score, setScore] = useState(0);
-    const [selectedChinese, setSelectedChinese] = useState(null);
-    const [isSubmitted, setIsSubmitted] = useState(false);
-    const [timeLeft, setTimeLeft] = useState(10); // 10秒倒计时
-    const [timer, setTimer] = useState(null);
-
-    useEffect(() => {
-        if (timeLeft > 0 && !isSubmitted) {
-            const timerId = setInterval(() => {
-                setTimeLeft((prev) => prev - 1);
-            }, 1000);
-            setTimer(timerId);
-        } else if (timeLeft === 0) {
-            handleSubmit(); // 超时自动提交
-        }
-        return () => clearInterval(timer);
-    }, [timeLeft, isSubmitted]);
-
-    const handleSelect = (chinese) => {
-        if (!isSubmitted) { // 只有在未提交时才允许选择
-            setSelectedChinese(chinese);
-        }
-    };
-
-    const handleSubmit = () => {
-        if (isSubmitted) return; // 如果已经提交，直接返回
-        setIsSubmitted(true);
-        clearInterval(timer); // 提交时清除定时器
-        if (selectedChinese === words[currentWordIndex].chinese[0]) {
-            setScore(score + 1);
-        }
-    };
-
-    const handleNext = () => {
-        setIsSubmitted(false);
-        setSelectedChinese(null);
-        setCurrentWordIndex((currentWordIndex + 1) % words.length);
-        setTimeLeft(10); // 重置计时器
-    };
+    const words = [
+        { english: 'Apple', chinese: ['苹果', '香蕉', '橙子', '葡萄'] },
+        { english: 'Banana', chinese: ['香蕉', '苹果', '橙子', '草莓'] },
+        // 可以添加更多单词
+    ];
 
     return (
-        <div className="app-container">
-            <h1 className="word">{words[currentWordIndex].english}</h1>
-            <div className="button-container">
-                {words[currentWordIndex].chinese.map((chinese, index) => {
-                    const isCorrect = chinese === words[currentWordIndex].chinese[0];
-                    const isSelected = selectedChinese === chinese;
-                    return (
-                        <button
-                            key={index}
-                            className={`chinese-button 
-                                ${isSubmitted && isCorrect ? 'correct' : ''} 
-                                ${isSubmitted && isSelected && !isCorrect ? 'incorrect' : ''} 
-                                ${!isSubmitted && isSelected ? 'selected' : ''}`}
-                            onClick={() => handleSelect(chinese)}
-                        >
-                            {chinese}
-                        </button>
-                    );
-                })}
+        <Router>
+            <div className="app-container">
+                <Routes> {/* 使用 Routes 组件 */}
+                    <Route path="/" element={<Home />} /> {/* 首页组件 */}
+                    <Route path="/single" element={
+                        <div style={{ position: 'relative', height: '100vh', width: '100%' }}> {/* 确保容器宽高撑满 */}
+                            <QuizGame playerName="玩家 1" words={words} />
+                            <Link to="/" className="back-button" style={{ position: 'absolute', bottom: '2rem', right: '2rem' }}>返回首页</Link> {/* 添加返回首页按钮 */}
+                        </div>
+                    } /> {/* 单人挑战 */}
+                    <Route path="/double" element={
+                        <div style={{ position: 'relative', height: '100vh', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}> {/* 确保容器宽高撑满并居中内容 */}
+                            <div style={{ display: 'flex', flexDirection: 'row', width: '95%', justifyContent: 'space-around' }}> {/* 确保双人挑战的布局为左右并均匀分配空间 */}
+                                <div style={{ margin: '0 1rem' }}> {/* 添加左右间距 */}
+                                    <QuizGame playerName="玩家 1" words={words} />
+                                </div>
+                                <div style={{ margin: '0 1rem' }}> {/* 添加左右间距 */}
+                                    <QuizGame playerName="玩家 2" words={words} />
+                                </div>
+                            </div>
+                            <Link to="/" className="back-button" style={{ position: 'absolute', bottom: '2rem', right: '2rem' }}>返回首页</Link> {/* 添加返回首页按钮 */}
+                        </div>
+                    } />
+                </Routes>
             </div>
-            <h2 className="score">积分: {score}</h2>
-            <div className="result-container">
-                {isSubmitted && (
-                    <div>
-                        {selectedChinese === words[currentWordIndex].chinese[0] ? (
-                            <h3 className="result correct">回答正确！</h3>
-                        ) : (
-                            <h3 className="result incorrect">正确答案是: {words[currentWordIndex].chinese[0]}</h3>
-                        )}
-                    </div>
-                )}
-            </div>
-            {!isSubmitted && ( // 仅在未提交时显示倒计时
-                <CountdownTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} />
-            )}
-            <div className="button-wrapper">
-                {isSubmitted ? (
-                    <button className="next-button" onClick={handleNext}>下一个</button>
-                ) : (
-                    <button className="submit-button" onClick={handleSubmit}>提交</button>
-                )}
-            </div>
-        </div>
+        </Router>
     );
 }
 
