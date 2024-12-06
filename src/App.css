@@ -107,7 +107,7 @@ body {
   font-size: 1.5rem; /* 设置与 .score 一致的字体大小 */
   color: black; /* 设置与整体样式一致的文本颜色 */
   font-family: Arial, sans-serif; /* 确保字体与其他文本一致 */
-  font-weight:bold; /* 确保字体粗细与其他文本一致 */
+  font-weight:bold; /* 确保字体粗与其他文本一致 */
 }
 
 .incorrect-answers {
@@ -149,7 +149,7 @@ body {
 }
 
 .incorrect-answers-container {
-    flex: 2; /* 右侧占据 1 份空间 */
+    flex: 2; /* 右侧占据 1 份间 */
     margin-left: 1.25rem;
     padding: 1rem; /* 减小内边距 */
     background-color: #f9f9f9; /* 添加背景颜色 */
@@ -160,12 +160,12 @@ body {
 }
 
 .result-summary-container {
-    width: 100%; /* 确保宽度为 100% */
-    height: 100%; /* 确保高度为 100% */
     display: flex; /* 使用 flexbox 布局 */
     flex-direction: column; /* 垂直排列内容 */
     justify-content: center; /* 垂直居中 */
     align-items: center; /* 水平居中 */
+    width: 100%; /* 确保宽度为 100% */
+    height: 100%; /* 确保高度为 100% */
 }
 
 /* 为 Home 组件添加样式 */
@@ -203,7 +203,7 @@ body {
 }
 
 .quiz-game-container {
-    width: 100%; /* 确保宽度为 100% */
+    width: 80%; /* 确保宽度为 100% */
     height: 100%; /* 确保高度为 100% */
     display: flex; /* 使用 flexbox 布局 */
     flex-direction: row; /* 水平排列内容 */
@@ -225,4 +225,153 @@ body {
 .back-button:hover {
     background-color: #218838; /* 悬停时的颜色 */
     transform: scale(1.05); /* 悬停时放大效果 */
+}
+
+/* 确保容器宽高撑满并居中内容 */
+.full-height-container {
+    position: relative; /* 确保相对定位 */
+    height: 100vh; /* 高度为视口高度 */
+    width: 100%; /* 宽度为 100% */
+    display: flex; /* 使用 flexbox 布局 */
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+}
+
+/* 单人挑战容器 */
+.single-challenge-container {
+    width: 95%; /* 单人挑战宽度 */
+}
+
+/* 双人挑战容器 */
+.double-challenge-container {
+    width: 100%; /* 双人挑战宽度 */
+}
+
+/* 返回首页按钮样式 */
+.back-button {
+    position: absolute; /* 绝对定位 */
+    bottom: 2rem; /* 距离底部 2rem */
+    right: 2rem; /* 距离右侧 2rem */
+    background-color: #28a745; /* 绿色背景 */
+    color: white; /* 白色文字 */
+    border: none; /* 无边框 */
+    border-radius: 0.5rem; /* 圆角 */
+    padding: 0.75rem 1.5rem; /* 内边距 */
+    font-size: 1.5rem; /* 字体大小 */
+    text-decoration: none; /* 去掉下划线 */
+    transition: background-color 0.3s, transform 0.3s; /* 添加过渡效果 */
+}
+
+.back-button:hover {
+    background-color: #218838; /* 悬停时的颜色 */
+    transform: scale(1.05); /* 悬停时放大效果 */
+}
+
+.double-challenge-layout {
+    display: flex; /* 使用 flexbox 布局 */
+    flex-direction: row; /* 水平排列内容 */
+    width: 80%; 
+    justify-content: space-between; /* 在两侧均匀分配空间 */
+    gap: 5%;
+}
+
+/* 选择器容器样式 */
+.select-container {
+    display: flex; /* 使用 flexbox 布局 */
+    align-items: center; /* 垂直居中对齐 */
+    margin-bottom: 2rem; 
+    margin-top: 2rem;
+    height: 3rem; /* 设置容器高度 */
+}
+
+/* 标签样式 */
+.select-label {
+    font-size: 1.5rem; /* 标签字体大小 */
+    margin-right: 1rem; /* 标签与选择器之间的间距 */
+}
+
+/* 下拉选择器样式 */
+.word-select {
+    font-size: 1.5rem; /* 字体大小 */
+    padding: 0.5rem; /* 内边距 */
+    border: 1px solid #ccc; /* 边框 */
+    border-radius: 0.5rem; /* 圆角 */
+    background-color: #fff; /* 背景颜色 */
+    transition: border-color 0.3s; /* 边框颜色过渡效果 */
+}
+
+/* 下拉选择器悬停和聚焦样式 */
+.word-select:hover, .word-select:focus {
+    border-color: #007BFF; /* 悬停和聚焦时的边框颜色 */
+    outline: none; /* 去掉默认的聚焦轮廓 */
+}
+
+.start-challenge-container {
+    display: flex; /* 使用 flexbox 布局 */
+    flex-direction: column; /* 垂直排列内容 */
+    align-items: center; /* 水平居中 */
+    justify-content: center; /* 垂直居中 */
+    height: 100vh; /* 高度为视口高度 */
+    padding: 2rem; /* 添加内边距 */
+}
+
+.start-challenge-title {
+    font-size: 3rem; /* 标题字体大小 */
+    color: #333; /* 标题颜色 */
+    margin-bottom: 2rem; /* 标题下方间距 */
+    text-align: center; /* 标题居中 */
+}
+
+.start-challenge-link {
+    font-size: 2rem; /* 链接字体大小 */
+    color: #007BFF; /* 链接颜色 */
+    text-decoration: none; /* 去掉下划线 */
+    margin: 1.5rem 0; /* 增加链接上下间距 */
+    padding: 1rem 2rem; /* 添加内边距 */
+    border-radius: 0.5rem; /* 圆角 */
+    background-color: #e7f3ff; /* 背景颜色 */
+    transition: color 0.3s, background-color 0.3s; /* 添加过渡效果 */
+}
+
+.start-challenge-link:hover {
+    color: #0056b3; /* 悬停时的颜色 */
+    background-color: #d0e7ff; /* 悬停时的背景颜色 */
+}
+
+/* 管理端样式 */
+.admin-container {
+    padding: 2rem; /* 添加内边距 */
+    background-color: #ffffff; /* 背景颜色 */
+    border-radius: 0.5rem; /* 圆角 */
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1); /* 阴影效果 */
+}
+
+.admin-title {
+    font-size: 2.5rem; /* 标题字体大小 */
+    color: #333; /* 标题颜色 */
+    margin-bottom: 1.5rem; /* 标题下方间距 */
+    text-align: center; /* 标题居中 */
+}
+
+.upload-section {
+    margin-bottom: 2rem; /* 上传部分下方间距 */
+}
+
+.records-section {
+    margin-top: 2rem; /* 记录部分上方间距 */
+}
+
+.table {
+    width: 100%; /* 表格宽度 */
+    border-collapse: collapse; /* 合并边框 */
+}
+
+.table th, .table td {
+    border: 1px solid #ccc; /* 边框颜色 */
+    padding: 0.75rem; /* 内边距 */
+    text-align: left; /* 左对齐 */
+}
+
+.table th {
+    background-color: #f2f2f2; /* 表头背景颜色 */
 }
