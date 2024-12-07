@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { mockWords, mockRecords } from './mocks'; // 导入 mock 数据
+import {  mockRecords } from './mocks'; // 导入 mock 数据
 import WordListEditor from './WordListEditor'; // 导入新组件
 import { updateWordList, deleteWordList, fetchWords } from './api'; // 导入 API 函数
 import { parseInput } from './utils';
@@ -9,13 +9,17 @@ function Admin({ setWords }) {
     const [file, setFile] = useState(null);
     const [records, setRecords] = useState([]);
     const [uploadedWords, setUploadedWords] = useState([]);
-    const [currentWordLists, setCurrentWordLists] = useState(mockWords); // 新增状态用于存储当前单词表
+    const [currentWordLists, setCurrentWordLists] = useState([]); // 新增状态用于存储当前单词表
 
     useEffect(() => {
-        // 模拟获取单词表和历史记录
-        setWords(mockWords);
-        setRecords(mockRecords);
-    }, [setWords]);
+        async function fetchData() {
+            // 模拟获取单词表和历史记录
+            const wordLists = await fetchWords();
+            setCurrentWordLists(wordLists);
+            setRecords(mockRecords);
+        }
+        fetchData(); // 调用异步函数
+    }, []);
 
     const handleFileChange = (event) => {
         setFile(event.target.files[0]);
@@ -90,29 +94,7 @@ function Admin({ setWords }) {
                     ))}
                 </ul>
             </div>
-
-            {/* <div className="records-section">
-                <h2>历次 PK 记录</h2>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>参与者</th>
-                            <th>得分</th>
-                            <th>时间</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {records.map((record, index) => (
-                            <tr key={index}>
-                                <td>{record.player}</td>
-                                <td>{record.score}</td>
-                                <td>{record.date}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div> */}
-            <Link to="/" className="back-button">返回首页</Link>
+            <Link to="/?refresh=true" className="back-button-admin">返回首页</Link>
         </div>
     );
 }

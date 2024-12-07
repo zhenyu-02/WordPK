@@ -15,6 +15,7 @@ function StartChallenge({ uploadedWords }) {
     return (
         <div className="start-challenge-container">
             <h1 className="start-challenge-title">选择挑战模式</h1>
+            {/* TODO 自定义超时时间 */}
             <div className="select-container">
                 <label htmlFor="word-select" className="select-label">选择单词表:</label>
                 <select id="word-select" onChange={handleSelectChange} className="word-select">

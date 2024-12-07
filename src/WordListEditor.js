@@ -34,6 +34,7 @@ const WordListEditor = ({ wordList, onSave }) => {
 
     const handleConfirmEditList = () => {
         onSave(curWordList);
+        setIsEdited(false)
     };
 
     const handleCancelEditList = () => {
@@ -43,7 +44,7 @@ const WordListEditor = ({ wordList, onSave }) => {
     };
 
     return (
-        <div>
+        <div style={{width:'80%'}}>
             <h3>{curWordList.english}</h3>
             <button onClick={() => setIsExpanded(!isExpanded)}>
                 {isExpanded ? '隐藏子条目' : '展开子条目'}
@@ -51,14 +52,15 @@ const WordListEditor = ({ wordList, onSave }) => {
             {isExpanded && (
                 <ul>
                     {curWordList.words.map((word, index) => (
-                        <li key={index}>
+                        <li style={{width:'100%'}} key={index}>
                             {word.english} - {word.chinese.join(', ')}
                             <button onClick={() => handleEditWord(word)}>编辑</button>
+                            {/* TODO 添加删除按钮 */}
                         </li>
                     ))}
                 </ul>
             )}
-            {editingWord && (
+            {isExpanded && editingWord && (
                 <div className="edit-modal">
                     <h3>编辑单词</h3>
                     <input 
@@ -89,7 +91,7 @@ const WordListEditor = ({ wordList, onSave }) => {
                     <button onClick={handleCancelEdit}>取消</button>
                 </div>
             )}
-            {isEdited && (
+            {isEdited && isExpanded && (
                 <>
                     <button onClick={handleConfirmEditList}>确认修改单词表</button>
                     <button onClick={handleCancelEditList}>取消修改单词表</button>

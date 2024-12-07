@@ -13,6 +13,8 @@ const initialWords = []; // 初始化为空数组
 function App() {
     const [words, setWords] = useState(initialWords); // 管理单词表
 
+
+    
     useEffect(() => {
         const loadWords = async () => {
             try {

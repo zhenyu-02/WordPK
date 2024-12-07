@@ -1,9 +1,9 @@
 // src/api.js
-const API_URL = 'http://localhost:3000';
+const API_URL = 'http://localhost:3000/words';
 
 export const fetchWords = async () => {
     try {
-        const response = await fetch(`${API_URL}/words`);
+        const response = await fetch(`${API_URL}`);
         if (!response.ok) {
             throw new Error('网络响应不正常');
         }

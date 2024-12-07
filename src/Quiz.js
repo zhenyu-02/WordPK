@@ -75,7 +75,7 @@ function Quiz({ onQuizComplete, words }) {
                 )}
             </div>
             {!isSubmitted && (
-                <CountdownTimer duration={10} onTimeUp={handleTimeUp} /> // 使用新的倒计时组件
+                <CountdownTimer duration={2} onTimeUp={handleTimeUp} /> // 使用新的倒计时组件
             )}
             <div className="button-wrapper">
                 {isSubmitted ? (
