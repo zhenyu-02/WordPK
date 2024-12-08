@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Quiz from './Quiz'; // 引入 Quiz 组件
 import './App.css'; // 引入 CSS 文件
 
-function QuizGame({ playerName, words }) {
+function QuizGame({ playerName, words, duration}) {
     const [isQuizCompleted, setIsQuizCompleted] = useState(false);
     const [finalScore, setFinalScore] = useState(0);
     const [incorrectAnswers, setIncorrectAnswers] = useState([]);
@@ -18,7 +18,7 @@ function QuizGame({ playerName, words }) {
         <div className="result-summary-container">
             <h1>{playerName} 的答题结果</h1>
             {!isQuizCompleted ? (
-                <Quiz onQuizComplete={handleQuizCompletion} words={words} />
+                <Quiz onQuizComplete={handleQuizCompletion} words={words} duration={duration} />
             ) : (
                 <div className="result-layout">
                     <div className="result-summary">

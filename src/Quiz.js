@@ -4,12 +4,21 @@ import './App.css'; // 引入 CSS 文件
 
 
 
-function Quiz({ onQuizComplete, words }) {
+function Quiz({ onQuizComplete, words, duration }) {
     const [currentWordIndex, setCurrentWordIndex] = useState(0);
     const [score, setScore] = useState(0);
     const [selectedChinese, setSelectedChinese] = useState(null);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [incorrectAnswers, setIncorrectAnswers] = useState([]);
+    const [shuffledChinese, setShuffledChinese] = useState([]);
+
+    useEffect(() => {
+        // 当 currentWordIndex 变化时打乱中文选项
+        const newShuffledChinese = [...words[currentWordIndex].chinese].sort(() => Math.random() - 0.5);
+        setShuffledChinese(newShuffledChinese);
+        console.log(newShuffledChinese,'newShuffledChinese');
+        console.log(words[currentWordIndex].chinese,'before');
+    }, [currentWordIndex]);
 
     const handleSelect = (chinese) => {
         if (!isSubmitted) {
@@ -45,22 +54,24 @@ function Quiz({ onQuizComplete, words }) {
         <div className="quiz-container">
             <h1 className="word">{words[currentWordIndex].english}</h1>
             <div className="button-container">
-                {words[currentWordIndex].chinese.map((chinese, index) => {
-                    const isCorrect = chinese === words[currentWordIndex].chinese[0];
-                    const isSelected = selectedChinese === chinese;
-                    return (
-                        <button
-                            key={index}
-                            className={`chinese-button 
-                                ${isSubmitted && isCorrect ? 'correct' : ''} 
-                                ${isSubmitted && isSelected && !isCorrect ? 'incorrect' : ''} 
-                                ${!isSubmitted && isSelected ? 'selected' : ''}`}
-                            onClick={() => handleSelect(chinese)}
-                        >
-                            {chinese}
-                        </button>
-                    );
-                })}
+                {(() => {
+                    return shuffledChinese.map((chinese, index) => {
+                        const isCorrect = chinese === words[currentWordIndex].chinese[0];
+                        const isSelected = selectedChinese === chinese;
+                        return (
+                            <button
+                                key={index}
+                                className={`chinese-button 
+                                    ${isSubmitted && isCorrect ? 'correct' : ''} 
+                                    ${isSubmitted && isSelected && !isCorrect ? 'incorrect' : ''} 
+                                    ${!isSubmitted && isSelected ? 'selected' : ''}`}
+                                onClick={() => handleSelect(chinese)}
+                            >
+                                {chinese}
+                            </button>
+                        );
+                    });
+                })()}
             </div>
             <h2 className="score">积分: {score}</h2>
             <div className="result-container">
@@ -75,7 +86,7 @@ function Quiz({ onQuizComplete, words }) {
                 )}
             </div>
             {!isSubmitted && (
-                <CountdownTimer duration={2} onTimeUp={handleTimeUp} /> // 使用新的倒计时组件
+                <CountdownTimer duration={duration} onTimeUp={handleTimeUp} /> // 使用新的倒计时组件
             )}
             <div className="button-wrapper">
                 {isSubmitted ? (

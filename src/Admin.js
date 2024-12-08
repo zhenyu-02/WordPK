@@ -89,7 +89,7 @@ function Admin({ setWords }) {
                     {currentWordLists.map((wordList, index) => (
                         <li key={index}>
                             <WordListEditor wordList={wordList} onSave={handleSaveWordList} />
-                            <button onClick={() => handleDeleteWordList(index)}>删除单词表</button>
+                            <button className='delete-list-button' onClick={() => handleDeleteWordList(index)}>删除单词表</button>
                         </li>
                     ))}
                 </ul>

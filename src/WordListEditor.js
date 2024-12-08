@@ -43,6 +43,17 @@ const WordListEditor = ({ wordList, onSave }) => {
         setIsEdited(false);
     };
 
+    const handleDeleteWord = (word) => {
+        if (window.confirm('确定要删除这个单词吗？')) {
+            const updatedWordList = {
+                ...curWordList,
+                words: curWordList.words.filter(w => w.english !== word.english)
+            };
+            setCurWordList(updatedWordList);
+            setIsEdited(true);
+        }
+    };
+
     return (
         <div style={{width:'80%'}}>
             <h3>{curWordList.english}</h3>
@@ -52,10 +63,12 @@ const WordListEditor = ({ wordList, onSave }) => {
             {isExpanded && (
                 <ul>
                     {curWordList.words.map((word, index) => (
-                        <li style={{width:'100%'}} key={index}>
-                            {word.english} - {word.chinese.join(', ')}
-                            <button onClick={() => handleEditWord(word)}>编辑</button>
-                            {/* TODO 添加删除按钮 */}
+                        <li style={{width:'100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}} key={index}>
+                            <span>{word.english} - {word.chinese.join(', ')}</span>
+                            <div>
+                                <button className="edit-button" onClick={() => handleEditWord(word)}>编辑</button>
+                                <button className="delete-button" onClick={() => handleDeleteWord(word)}>删除</button>
+                            </div>
                         </li>
                     ))}
                 </ul>
